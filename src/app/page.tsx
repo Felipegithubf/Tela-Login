@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button, Typography } from "@mui/material";
+import {} from '@/auth/Dashboard';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,7 @@ const Login = () => {
       <header className="w-full h-7 flex justify-center items-center md:mx-12 lg:mx-24 relative">
         <div className="max-w-lp  p-80 w-full border-white-600 rounded-md border-4 bg-gray-200 bg-opacity-90"></div>
       </header>
+      
       <div className="max-w-md p-20 w-full border border-white-600 rounded-md  bg-blue-5800 bg-opacity-90">
         <Typography className="text-3xl font-bold text-center text-white mb-6">VHA {isRegistering ? 'Cadastro' : 'Login'}</Typography>
         <form onSubmit={handleSubmit}>
