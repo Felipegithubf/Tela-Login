@@ -1,6 +1,6 @@
-'use client'; // Não está claro o que 'use client' significa aqui, pode ser específico de um framework ou biblioteca.
+'use client';
 
-import { useState } from 'react'; // Importa o hook useState do React para gerenciar estados em componentes funcionais.
+import { useState, useEffect } from 'react'; // Importa o hook useState do React para gerenciar estados em componentes funcionais.
 import { Button, Typography } from "@mui/material"; // Importa os componentes Button e Typography da biblioteca Material-UI.
 import Image from 'next/image'; // Importa o componente Image do Next.js para otimização de imagens.
 
@@ -12,20 +12,54 @@ const Login = () => {
   const [error, setError] = useState(''); // Estado para armazenar mensagens de erro.
   const [isRegistering, setIsRegistering] = useState(false); // Estado para controlar se o usuário está no modo de registro.
 
+  // Função para verificar se o usuário está conectado
+  const isUserLoggedIn = () => {
+    // Verifica se há um item no armazenamento local indicando que o usuário está conectado
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    // Retorna true se o usuário estiver conectado ou false caso contrário
+    return isLoggedIn === 'true';
+  };
+
+  // Função para marcar o usuário como conectado
+  const markUserAsLoggedIn = () => {
+    // Define um item no armazenamento local indicando que o usuário está conectado
+    localStorage.setItem('isLoggedIn', 'true');
+  };
+
+  // Função para marcar o usuário como desconectado
+  const markUserAsLoggedOut = () => {
+    // Remove o item do armazenamento local indicando que o usuário está conectado
+    localStorage.removeItem('isLoggedIn');
+  };
+
+  useEffect(() => {
+    // Verifica se o usuário está conectado ao carregar o componente
+    if (isUserLoggedIn()) {
+      // Faça aqui qualquer ação necessária quando o usuário estiver conectado
+    }
+  }, []); // Executa apenas uma vez ao carregar o componente
+
   // Função para lidar com o envio do formulário
   const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     if (isRegistering) {
       // Lógica de cadastro
+      // Após o cadastro, marca o usuário como conectado
+      markUserAsLoggedIn();
     } else {
       // Simulação de autenticação básica
+      // Se o usuário marcou a opção "Mantenha conectado", marca o usuário como conectado
+      if (rememberMe) {
+        markUserAsLoggedIn();
+      }
     }
   };
 
   // Renderização do componente
   return (
     <div className="w-screen h-screen p-24 flex justify-center items-center opacity-100" style={{ backgroundColor: "#2A8EFF" }}>
+      
       {/* Cabeçalho */}
       <header className="w-full h-7 flex justify-center items-center md:mx-12 lg:mx-24 relative">
         <div className="max-w-lp  p-80 w-full border-white-600 rounded-md border-4 bg-gray-200 bg-opacity-90">
@@ -40,7 +74,6 @@ const Login = () => {
           {isRegistering && (
             <div className="my-6">
               <label className="block text-lg mb-2 text-white" htmlFor="usernameField"></label>
-             
             </div>
           )}
           {/* Campo de email */}
@@ -48,6 +81,7 @@ const Login = () => {
             <label className="block text-lg mb-2 text-white" htmlFor="emailField"> Email </label>
             <input className="w-full p-2 rounded-md text-lg bg-gray-800 bg-opacity-70 border border-gray-600 outline-blue-400 text-white" type="email" id="emailField" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email@example.com" />
           </div>
+
           {/* Campo de senha */}
           <div className="my-6">
             <label className="block text-lg mb-2 text-white" htmlFor="passwordField">Senha</label>
@@ -62,7 +96,7 @@ const Login = () => {
           {error && <p className="text-black-300">{error}</p>}
           {/* Botão de envio */}
           <div className="my-6 flex justify-between">
-            <Button type="submit" className="w-full p-2 rounded-md text-lg font-bold border-none text-white bg-yellow-500">{isRegistering ? 'Cadastrar' : 'Entrar'}</Button>
+            <Button type="submit" className="w-full p-2 rounded-md text-lg font-bold border-none text-white bg-yellow-600">{isRegistering ? 'Cadastrar' : 'Entrar'}</Button>
             {/* Link para alternar entre tela de registro e login */}
             <div className="ml-4">
               <a className="text-yellow-500 font-bold" href="#" onClick={() => setIsRegistering(true)}>Cadastre-se grátis</a>
