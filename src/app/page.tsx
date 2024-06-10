@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import Imagem1 from '@/components/Imagem1';
 import Image8 from '@/components/Image';
@@ -30,8 +29,14 @@ const Login = () => {
     }
   }, []);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
+
+    // Verifica se o email e senha foram preenchidos
+    if (!email || !password) {
+      setError('Por favor, preencha o email e senha.');
+      return;
+    }
 
     // Verifica se o usuário está cadastrado
     const isUserRegistered = await checkUserRegistration(email, password);
@@ -43,20 +48,16 @@ const Login = () => {
       }
     } else {
       // Se o usuário não estiver cadastrado, exibe uma mensagem de erro
-      setError('Usuário não cadastrado. Por favor, faça o cadastro antes de fazer o login.');
-      // Redireciona para a página de cadastro após 3 segundos
-      setTimeout(() => {
-        window.location.href = '/cadastro';
-      }, 3000);
+      setError('Email ou senha incorretos. Por favor, tente novamente ou cadastre-se.');
     }
   };
-
+   // vai ser a parte do banco de dados//
   // Função para verificar se o usuário está cadastrado
-  const checkUserRegistration = async (email: string, password: string) => {
+  const checkUserRegistration = async (email :any, password : any) => {
     // Aqui você deve implementar a lógica para verificar se o usuário está cadastrado no seu sistema
     // Por exemplo, você pode fazer uma requisição para o seu backend para verificar no banco de dados
     // Esta é apenas uma simulação
-    return new Promise<boolean>((resolve) => {
+    return new Promise((resolve) => {
       // Simulação: usuário está cadastrado se o email for 'user@example.com'
       const isRegistered = email === 'user@example.com' && password === 'senha123';
       resolve(isRegistered);
