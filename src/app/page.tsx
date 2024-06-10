@@ -30,21 +30,44 @@ const Login = () => {
     }
   }, []);
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    // Simulação de autenticação básica
-    // Se o usuário marcou a opção "Mantenha conectado", marca o usuário como conectado
-    if (rememberMe) {
-      markUserAsLoggedIn();
+    // Verifica se o usuário está cadastrado
+    const isUserRegistered = await checkUserRegistration(email, password);
+
+    if (isUserRegistered) {
+      // Se o usuário estiver cadastrado, prossegue com o login normalmente
+      if (rememberMe) {
+        markUserAsLoggedIn();
+      }
+    } else {
+      // Se o usuário não estiver cadastrado, exibe uma mensagem de erro
+      setError('Usuário não cadastrado. Por favor, faça o cadastro antes de fazer o login.');
+      // Redireciona para a página de cadastro após 3 segundos
+      setTimeout(() => {
+        window.location.href = '/cadastro';
+      }, 3000);
     }
+  };
+
+  // Função para verificar se o usuário está cadastrado
+  const checkUserRegistration = async (email: string, password: string) => {
+    // Aqui você deve implementar a lógica para verificar se o usuário está cadastrado no seu sistema
+    // Por exemplo, você pode fazer uma requisição para o seu backend para verificar no banco de dados
+    // Esta é apenas uma simulação
+    return new Promise<boolean>((resolve) => {
+      // Simulação: usuário está cadastrado se o email for 'user@example.com'
+      const isRegistered = email === 'user@example.com' && password === 'senha123';
+      resolve(isRegistered);
+    });
   };
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center sm:flex-row" style={{ backgroundColor: "#212E3E" }}>
       <Imagem1 />
       <div className="w-full sm:w-3/4 md:w-1/3 lg:w-1/3 p-8 m-4 flex flex-col">
-        <Typography className="text-3xl font-bold text-center text-white mb-2">VHA Login</Typography>
+        <Typography className="text-3xl font-bold text-center text-white mb-2">VHA LOGIN</Typography>
         <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
           <Image8 />
           <div className="my-6">
@@ -64,10 +87,8 @@ const Login = () => {
             <Button type="submit" className="w-full p-2 rounded-md text-lg font-bold border-none text-white bg-yellow-600">Entrar</Button>
           </div>
         </form>
-        <div className="text-center text-white">
-          <a href="#">Recuperar senha</a>
-        </div>
-        <div className="text-center text-amber-400 p-4">
+        
+        <div className="text-center text-amber-400">
           <a href='/cadastro'>Já se cadastrou? Cadastre-se aqui</a>
         </div>
       </div>
