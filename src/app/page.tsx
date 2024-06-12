@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Imagem1 from '@/components/Imagem1';
+
 import Image8 from '@/components/Image';
 import { Button, Typography } from "@mui/material";
 
@@ -51,11 +51,13 @@ const Login = () => {
       setError('Email ou senha incorretos. Por favor, tente novamente ou cadastre-se.');
     }
   };
-   // vai ser a parte do banco de dados//
+   
   // Função para verificar se o usuário está cadastrado
   const checkUserRegistration = async (email :any, password : any) => {
     // Aqui você deve implementar a lógica para verificar se o usuário está cadastrado no seu sistema
+   
     // Por exemplo, você pode fazer uma requisição para o seu backend para verificar no banco de dados
+    
     // Esta é apenas uma simulação
     return new Promise((resolve) => {
       // Simulação: usuário está cadastrado se o email for 'user@example.com'
@@ -66,8 +68,8 @@ const Login = () => {
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center sm:flex-row" style={{ backgroundColor: "#212E3E" }}>
-      <Imagem1 />
-      <div className="w-full sm:w-3/4 md:w-1/3 lg:w-1/3 p-8 m-4 flex flex-col">
+     
+      <div className="w-full sm:w-3/4 md:w-1/3 lg:w-1/3 p-8 m-4 flex flex-col bg-gray-800 rounded-md border border-gray-600">
         <Typography className="text-3xl font-bold text-center text-white mb-2">VHA LOGIN</Typography>
         <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
           <Image8 />
@@ -85,7 +87,7 @@ const Login = () => {
           </div>
           {error && <p className="text-black-300">{error}</p>}
           <div className="my-6 flex-grow">
-            <Button type="submit" className="w-full p-2 rounded-md text-lg font-bold border-none text-white bg-yellow-600">Entrar</Button>
+            <Button type="submit" className="w-full p-2 rounded-md text-lg font-bold border-none text-white bg-yellow-600" >Entrar</Button>
           </div>
         </form>
         
